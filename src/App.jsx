@@ -1,32 +1,23 @@
-// /src/App.js
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Calendar from "./components/Calendar";
-//import EventModal from "./components/EventModel";
+import React, { useState } from 'react';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import EventCal from './Pages/EventCal'; // Import EventCal component
+import CalendarPage from './Pages/CalenderPage'; // Import CalendarPage if you want it
 
 const App = () => {
-  const [events, setEvents] = useState(
-    JSON.parse(localStorage.getItem("events")) || {}
-  );
-
-  // Save events to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("events", JSON.stringify(events));
-  }, [events]);
+  const [events, setEvents] = useState([]);
 
   return (
     <Router>
-      <div className="app-container">
-       
-        <Routes>
-          <Route
-            path="/"
-            element={<Calendar events={events} setEvents={setEvents} />}
-          />
-
-       
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<CalendarPage />} // Route to your calendar page
+        />
+        <Route
+          path="/events/:date" // Dynamic route for event details by date
+          element={<EventCal events={events} setEvents={setEvents} />}
+        />
+      </Routes>
     </Router>
   );
 };
